@@ -1,0 +1,5 @@
+onlyBuiltDependencies:
+  - '@biomejs/biome'
+  - sharp
+packages:
+  - "wasm/pkg"
