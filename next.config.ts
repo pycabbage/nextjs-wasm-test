@@ -3,6 +3,21 @@ import { access, symlink } from "node:fs/promises"
 import { join } from "node:path"
 import { env } from "node:process"
 import type { Configuration, WebpackPluginInstance, Compiler } from "webpack"
+import * as pagesConfig from "./next.config.pages.mjs"
+
+function deepmerge<T1, T2>(obj_a: Partial<T1>, obj_b: Partial<T2>): T1 & T2 {
+  const merged = { ...obj_a } as Partial<T1 & T2>
+  for (const key in obj_b) {
+    if (key in merged && typeof merged[key] === "object") {
+      //@ts-expect-error
+      merged[key] = deepmerge(merged[key], obj_b[key])
+    } else {
+      //@ts-expect-error
+      merged[key] = obj_b[key]
+    }
+  }
+  return merged as T1 & T2
+}
 
 const nextConfig: NextConfig = {
   output: Object.keys(env).includes("GITHUB_ACTIONS")
@@ -53,4 +68,4 @@ const nextConfig: NextConfig = {
   },
 }
 
-export default nextConfig
+export default deepmerge(pagesConfig, nextConfig)
