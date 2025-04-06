@@ -4,10 +4,11 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "run-s clean build:next",
+    "build": "run-s clean:next build:next",
     "build:next": "next build --no-lint",
     "build:wasm": "wasm-pack build wasm -s nextjs-wasm-test --weak-refs --reference-types",
-    "clean": "rimraf .next",
+    "clean:next": "rimraf .next",
+    "clean:wasm": "rimraf wasm/pkg",
     "start": "next start",
     "next": "next",
     "lint": "biome check"

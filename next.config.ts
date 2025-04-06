@@ -1,13 +1,14 @@
 import type { NextConfig } from "next"
 import { access, symlink } from "node:fs/promises"
 import { join } from "node:path"
+import { env } from "node:process"
 // import { join } from "path"
 import type { Configuration, WebpackPluginInstance, Compiler } from "webpack"
 
 
 
 const nextConfig: NextConfig = {
-  output: "export",
+  output: Object.keys(env).includes("GITHUB_ACTIONS") ? "export" : undefined,
   /* config options here */
   webpack(config: Configuration, { isServer }) {
     config.experiments = {

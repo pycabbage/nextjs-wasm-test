@@ -31,15 +31,18 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+      - uses: actions-rust-lang/setup-rust-toolchain@v1
+      - name: Setup wasm-pack
+        run: curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
+      - name: Build WebAssembly
+        run: pnpm build:wasm
+
       - uses: pnpm/action-setup@v4
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
           node-version-file: ".nvmrc"
           cache: "pnpm"
-      - uses: actions-rust-lang/setup-rust-toolchain@v1
-      - name: Setup wasm-pack
-        run: curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
 
       - name: Setup Pages
         uses: actions/configure-pages@v5
@@ -55,8 +58,6 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-nextjs-${{ hashFiles('**/pnpm-lock.yaml') }}-
 
-      - name: Build WebAssembly
-        run: pnpm build:wasm
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
       - name: Build with Next.js
