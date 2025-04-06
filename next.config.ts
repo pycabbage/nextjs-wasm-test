@@ -2,13 +2,14 @@ import type { NextConfig } from "next"
 import { access, symlink } from "node:fs/promises"
 import { join } from "node:path"
 import { env } from "node:process"
-// import { join } from "path"
 import type { Configuration, WebpackPluginInstance, Compiler } from "webpack"
 
-
-
 const nextConfig: NextConfig = {
-  output: Object.keys(env).includes("GITHUB_ACTIONS") ? "export" : undefined,
+  output: Object.keys(env).includes("GITHUB_ACTIONS")
+    ? "export"
+    : Object.keys(env).includes("NEXT_OUTPUT")
+      ? (env.NEXT_OUTPUT as "export" | "standalone")
+      : undefined,
   /* config options here */
   webpack(config: Configuration, { isServer }) {
     config.experiments = {
@@ -30,7 +31,7 @@ const nextConfig: NextConfig = {
               try {
                 await access(from)
                 return
-              // biome-ignore lint/suspicious/noExplicitAny: 
+                // biome-ignore lint/suspicious/noExplicitAny:
               } catch (error: any) {
                 if (error?.code !== "ENOENT") {
                   throw error
