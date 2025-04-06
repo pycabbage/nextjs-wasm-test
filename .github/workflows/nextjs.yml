@@ -48,7 +48,12 @@ jobs:
         uses: actions/configure-pages@v5
         with:
           static_site_generator: next
+          generator_config_file: next.config.ts
           enablement: true
+      - name: Check next.config.ts
+        run: |
+          ls -lah
+          cat next.config.ts
       - name: Restore cache
         uses: actions/cache@v4
         with:
