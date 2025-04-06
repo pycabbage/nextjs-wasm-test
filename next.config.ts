@@ -7,6 +7,7 @@ import type { Configuration, WebpackPluginInstance, Compiler } from "webpack"
 
 
 const nextConfig: NextConfig = {
+  output: "export",
   /* config options here */
   webpack(config: Configuration, { isServer }) {
     config.experiments = {
