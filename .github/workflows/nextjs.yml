@@ -35,7 +35,7 @@ jobs:
       - name: Setup wasm-pack
         run: curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
       - name: Build WebAssembly
-        run: pnpm build:wasm
+        run: wasm-pack build wasm -s nextjs-wasm-test --weak-refs --reference-types
 
       - uses: pnpm/action-setup@v4
       - name: Setup Node
